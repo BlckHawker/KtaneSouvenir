@@ -1344,6 +1344,9 @@
         [AnswerGenerator.Grid(4, 4)]
         KudosudokuPrefilled,
 
+        [SouvenirQuestion("What was Kuro's mood in {0}?", "Kuro", TwoColumns4Answers, ExampleAnswers = new[] { "Angry", "Happy", "Neutral", "Curious", "Devious" })]
+        KuroMood,
+
         [SouvenirQuestion("Where was one of the portals in layer {1} in {0}?", "Labyrinth", ThreeColumns6Answers, null, AddThe = true, Type = AnswerType.Grid, TranslateFormatArgs = new[] { true },
             ExampleFormatArguments = new[] { "1 (Red)", "2 (Orange)", "3 (Yellow)", "4 (Green)", "5 (Blue)" }, ExampleFormatArgumentGroupSize = 1)]
         [AnswerGenerator.Grid(6, 7)]
