@@ -267,6 +267,7 @@ public partial class SouvenirModule
             ["GSLangtonsAnteater"] = (ProcessLangtonsAnteater, "Langton’s Anteater", "Kuro"),
             ["lasers"] = (ProcessLasers, "Lasers", "luisdiogo98"),
             ["LEDEnc"] = (ProcessLEDEncryption, "LED Encryption", "CaitSith2"),
+            ["ledGrid"] = (ProcessLEDGrid, "LED Grid", "Hawker"),
             ["lgndLEDMath"] = (ProcessLEDMath, "LED Math", "TasThiluna"),
             ["leds"] = (ProcessLEDs, "LEDs", "tandyCake"),
             ["LEGOModule"] = (ProcessLEGOs, "LEGOs", "luisdiogo98"),

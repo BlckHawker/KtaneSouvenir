@@ -1375,6 +1375,10 @@
         [AnswerGenerator.Strings('A', 'Z')]
         LEDEncryptionPressedLetters,
 
+        [SouvenirQuestion("What color was the LED at {1} on {0}?", "LED Grid", ThreeColumns6Answers, null, ExampleAnswers = new[] { "Black", "Blue", "Green", "Orange", "Pink", "Purple", "Red", "White", "Yellow" },
+            ExampleFormatArguments = new[] { "A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3" }, ExampleFormatArgumentGroupSize = 1)]
+        LEDGridColor,
+
         [SouvenirQuestion("What color was {1} in {0}?", "LED Math", TwoColumns4Answers, "Red", "Blue", "Yellow", "Green", TranslateAnswers = true,
             ExampleFormatArguments = new[] { "LED A", "LED B", "the operator LED" }, ExampleFormatArgumentGroupSize = 1, TranslateFormatArgs = new[] { true })]
         LEDMathLights,
