@@ -207,6 +207,7 @@ public partial class SouvenirModule
             ["lgndGadgetronVendor"] = (ProcessGadgetronVendor, "Gadgetron Vendor", "Kuro"),
             ["GameOfLifeCruel"] = (ProcessGameOfLifeCruel, "Game of Life Cruel", "GhostSalt"),
             ["TheGamepadModule"] = (ProcessGamepad, "Gamepad, The", "Timwi"),
+            ["garfieldKart"] = (ProcessGarfieldKart, "Garfield Kart", "Hawker"),
             ["theGarnetThief"] = (ProcessGarnetThief, "Garnet Thief, The", "Hawker"),
             ["ghostMovement"] = (ProcessGhostMovement, "Ghost Movement", "Anonymous"),
             ["Girlfriend"] = (ProcessGirlfriend, "Girlfriend", "Hawker"),

@@ -1080,6 +1080,12 @@
         [AnswerGenerator.Strings("2*0-9", ":", "2*0-9")]
         GamepadNumbers,
 
+        [SouvenirQuestion("How many puzzle pieces did {0} have?", "Garfield Kart", TwoColumns4Answers, "0", "1", "2", "3")]
+        GarfieldKartPuzzleCount,
+        [SouvenirQuestion("What was the track in {0}?", "Garfield Kart", OneColumn4Answers, 
+            ExampleAnswers = new[] { "Play Misty for Me", "Sneak-A-Peak", "Blazing Oasis", "Pastacosi Factory", "Mysterious Temple", "Prohibited Site"})]
+        GarfieldKartTrack,
+
         [SouvenirQuestion("Which faction did {1} claim to be in {0}?", "Garnet Thief", TwoColumns4Answers, "Mafia", "Cartel", "Beggar", "Police", AddThe = true,
             ExampleFormatArguments = new[] { "Jungmoon", "Yeonseung", "Jinho", "Dongmin", "Kyunghoon", "Kyungran", "Yoohyun", "Junseok", "Sangmin", "Yohwan", "Yoonsun", "Hyunmin", "Junghyun" }, ExampleFormatArgumentGroupSize = 1)]
         GarnetThiefClaim,
