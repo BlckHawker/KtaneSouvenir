@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using Souvenir;
 using UnityEngine;
@@ -1653,6 +1654,27 @@ public partial class SouvenirModule
            makeQuestion(Question.SugarSkullsSkull, module, formatArgs: new[] { "bottom-right" }, correctAnswers: new[] { skulls[2] }),
            makeQuestion(Question.SugarSkullsAvailability, module, formatArgs: new[] { "was" }, correctAnswers: skulls.ToArray()),
            makeQuestion(Question.SugarSkullsAvailability, module, formatArgs: new[] { "was not" }, correctAnswers: GetAnswers(Question.SugarSkullsAvailability).Except(skulls).ToArray()));
+    }
+
+    private IEnumerator<YieldInstruction> ProcessSuitsAndColours(ModuleData module)
+    {
+        var comp = GetComponent(module, "SuitsAndColoursScript");
+        yield return WaitForSolve;
+
+        //todo change variables to var
+        var suits = new[] { "spades", "hearts", "clubs", "diamonds" };
+        var colours = new[] { "red", "orange", "yellow", "green" };
+        List<int> correctSuitIndices = GetListField<int>(comp, "ChosenSuits").Get(li => li.Count != 9 ? "expected length 9" : null);
+        List<int> correctColourIndices = GetListField<int>(comp, "ChosenColours").Get(li => li.Count != 9 ? "expected length 9" : null);
+
+        List<QandA> questions = new List<QandA>();
+        for (int i = 0; i < 9; i++)
+        {
+            questions.Add(makeQuestion(Question.SuitsAndColourCoulor, module, formatArgs: new[] { ordinal(i + 1) }, correctAnswers: new[] { colours[correctColourIndices[i]] }));
+            questions.Add(makeQuestion(Question.SuitsAndColourSuit, module, formatArgs: new[] { ordinal(i + 1) }, correctAnswers: new[] { suits[correctSuitIndices[i]] }));
+        }
+
+        addQuestions(module, questions);
     }
 
     private IEnumerator<YieldInstruction> ProcessSuperparsing(ModuleData module)
