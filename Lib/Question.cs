@@ -2793,6 +2793,16 @@
             ExampleFormatArguments = new[] { "red", "green", "blue" }, ExampleFormatArgumentGroupSize = 1)]
         TenpinsSplits,
 
+        [SouvenirQuestion("{0} question with just max", "Test", ThreeColumns6Answers)]
+        [AnswerGenerator.Ordinal(6)]
+        TestMax,
+        [SouvenirQuestion("{0} question with min and max", "Test", ThreeColumns6Answers)]
+        [AnswerGenerator.Ordinal(2, 7)]
+        TestMinMax,
+        [SouvenirQuestion("{0} question with step", "Test", ThreeColumns6Answers)]
+        [AnswerGenerator.Ordinal(10, 100, 10)]
+        TestMinMaxStep,
+
         [SouvenirQuestion("What colour triangle pulsed {1} in {0}?", "Tetriamonds", ThreeColumns6Answers, "orange", "lime", "jade", "azure", "violet", "rose", "grey", TranslateAnswers = true, ExampleFormatArguments = new[] { QandA.Ordinal }, ExampleFormatArgumentGroupSize = 1)]
         TetriamondsPulsingColours,
 

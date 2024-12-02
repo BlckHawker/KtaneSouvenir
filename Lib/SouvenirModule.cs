@@ -1184,7 +1184,7 @@ public partial class SouvenirModule : MonoBehaviour
 
     private string titleCase(string str) => str.Length < 1 ? str : char.ToUpperInvariant(str[0]) + str.Substring(1).ToLowerInvariant();
 
-    private string ordinal(int number) => _translation != null
+    public string ordinal(int number) => _translation != null
             ? _translation.Ordinal(number)
             : number < 0
                 ? "(" + number + ")th"
