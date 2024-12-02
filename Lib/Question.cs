@@ -212,6 +212,20 @@
           ExampleFormatArguments = new[] { QandA.Ordinal, QandA.Ordinal }, ExampleFormatArgumentGroupSize = 2)]
         BamboozlingButtonDisplayColor,
 
+        [SouvenirQuestion("What was the category of {0}?", "Bar Charts", ThreeColumns6Answers, null, ExampleAnswers = new[] { "C# Data Types", "Cast of Star Trek: TOS", "James Bond Actors", "Basic Shapes", "Dwarf Planets, Esolangs"},
+            ExampleFormatArguments = new[] { QandA.Ordinal }, ExampleFormatArgumentGroupSize = 1)]
+        BarChartsCategory,
+        [SouvenirQuestion("What was the color of the {1} bar in {0}?", "Bar Charts", TwoColumns4Answers, "Red", "Yellow", "Green", "Blue",
+            ExampleFormatArguments = new[] { QandA.Ordinal }, ExampleFormatArgumentGroupSize = 1)]
+        BarChartsColor,
+        [SouvenirQuestion("From shorteset to tallest, where was the {1} bar in {0}?", "Bar Charts", TwoColumns4Answers,
+            ExampleFormatArguments = new[] { QandA.Ordinal }, ExampleFormatArgumentGroupSize = 1)]
+        [AnswerGenerator.Ordinal(4)]
+        BarChartsHeight,
+        [SouvenirQuestion("What was the label of the {1} bar in {0}?", "Bar Charts", ThreeColumns6Answers, null, ExampleAnswers = new[] { "Character", "String", "Integer", "Long", "Boolean", "Double", "Float" },
+            ExampleFormatArguments = new[] { QandA.Ordinal }, ExampleFormatArgumentGroupSize = 1)]
+        BarChartsLabel,
+
         [SouvenirQuestion("What was the screen number in {0}?", "Barcode Cipher", OneColumn4Answers)]
         [AnswerGenerator.Integers(0, 999999, "000000")]
         BarcodeCipherScreenNumber,
