@@ -169,6 +169,10 @@ public partial class SouvenirModule
         addQuestions(module, qs);
     }
 
+    //check what the 6 longest labels are to see if the answer needs to be changed to one column
+    //check what the 6 longest category are to see if the answer needs to be changed to one column
+
+
     private IEnumerator<YieldInstruction> ProcessBarcodeCipher(ModuleData module)
     {
         var comp = GetComponent(module, "BarcodeCipherScript");
