@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Souvenir;
 using UnityEngine;
+using UnityEngine.UI;
 
 public partial class SouvenirModule
 {
@@ -177,23 +178,25 @@ public partial class SouvenirModule
 
         yield return WaitForSolve;
 
-        //unsure if there's a way to validate this variable. Expected length is 22
         var allVariableSets = GetStaticField<object[]>(comp.GetType(), "AllVariableSets").Get().ToArray();
         var chosenSet = GetField<object>(comp, "ChosenSet").Get();
         var fldName = GetField<string>(allVariableSets[0], "Name", isPublic: true);
         var fldVariables = GetArrayField<string>(allVariableSets[0], "Variables", isPublic: true);
+        var barColoursInts = new List<int>(GetField<IList>(comp, "BarColours").Get().Cast<int>());
         var chosenUnit = GetField<Enum>(comp, "yAxisLabel").Get();
-        var barColors = GetListField<Enum>(comp, "BarColours").Get(expectedLength: 4);
-        var heightOrder = GetListField<float>(comp, "HeightOrder").Get(expectedLength: 4);
+        var relevantLabels = fldVariables.GetFrom(chosenSet);
+        var heightOrderIndices = GetListField<float>(comp, "HeightOrder").Get(expectedLength: 4).Select(x => Mathf.RoundToInt(x)).ToList();
+        var labels = GetArrayField<Text>(comp, "BarTextRends", true).Get(expectedLength: 4).Select(t => t.text).ToArray();
+        var colours = new[] { "Red", "Yellow", "Green", "Blue" };
+        var heightArr = new[] { "shortest", "second shortest", "second tallest", "tallest" };
         var allCategories = new List<string>();
         var allLabels = new List<string>();
+        
         foreach (var variableSet in allVariableSets)
         {
             allCategories.Add(fldName.GetFrom(variableSet));
             allLabels.AddRange(fldVariables.GetFrom(variableSet));
         }
-
-        var relevantLabels = fldVariables.GetFrom(chosenSet);
 
         var qs = new List<QandA>
         {
@@ -201,21 +204,18 @@ public partial class SouvenirModule
             makeQuestion(Question.BarChartsUnit, module, correctAnswers: new[] { chosenUnit.ToString() })
         };
 
-        var heightArr = new[] { "shortest", "second shortest", "second tallest", "tallest" };
-        var heightOrderIndices = heightOrder.Select(x => Mathf.RoundToInt(x)).ToList();
         for (int i = 0; i < 4; i++)
         {
-            int correctHeightPos = heightOrderIndices.IndexOf(i + 1) + 1;
+            var correctHeightPos = heightOrderIndices.IndexOf(i + 1) + 1;
             qs.AddRange(new[] {
-                makeQuestion(Question.BarChartsColor, module, formatArgs: new[] { ordinal(i + 1) }, correctAnswers: new[] { barColors[i].ToString() }),
+                makeQuestion(Question.BarChartsLabel, module, formatArgs: new[] { ordinal(i + 1) }, correctAnswers: new[] { labels[i] }, allAnswers: relevantLabels),
+                makeQuestion(Question.BarChartsColor, module, formatArgs: new[] { ordinal(i + 1) }, correctAnswers: new[] { colours[barColoursInts[i]] }),
                 makeQuestion(Question.BarChartsHeight, module, formatArgs: new[] { heightArr[i] }, correctAnswers: new[] { correctHeightPos.ToString() })
             });
-
         }
 
         addQuestions(module, qs);
     }
-
 
     private IEnumerator<YieldInstruction> ProcessBarcodeCipher(ModuleData module)
     {
