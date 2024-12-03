@@ -169,8 +169,52 @@ public partial class SouvenirModule
         addQuestions(module, qs);
     }
 
-    //check what the 6 longest labels are to see if the answer needs to be changed to one column
-    //check what the 6 longest category are to see if the answer needs to be changed to one column
+    
+    
+    private IEnumerator<YieldInstruction> ProcessBarCharts(ModuleData module)
+    {
+        var comp = GetComponent(module, "BarChartsScript");
+
+        yield return WaitForSolve;
+
+        //unsure if there's a way to validate this variable. Expected length is 22
+        var allVariableSets = GetStaticField<object[]>(comp.GetType(), "AllVariableSets").Get().ToArray();
+        var chosenSet = GetField<object>(comp, "ChosenSet").Get();
+        var fldName = GetField<string>(allVariableSets[0], "Name", isPublic: true);
+        var fldVariables = GetArrayField<string>(allVariableSets[0], "Variables", isPublic: true);
+        var chosenUnit = GetField<Enum>(comp, "yAxisLabel").Get();
+        var barColors = GetListField<Enum>(comp, "BarColours").Get(expectedLength: 4);
+        var heightOrder = GetListField<float>(comp, "HeightOrder").Get(expectedLength: 4);
+        var allCategories = new List<string>();
+        var allLabels = new List<string>();
+        foreach (var variableSet in allVariableSets)
+        {
+            allCategories.Add(fldName.GetFrom(variableSet));
+            allLabels.AddRange(fldVariables.GetFrom(variableSet));
+        }
+
+        var relevantLabels = fldVariables.GetFrom(chosenSet);
+
+        var qs = new List<QandA>
+        {
+            makeQuestion(Question.BarChartsCategory, module, correctAnswers: new[] { fldName.GetFrom(chosenSet) }, allAnswers: allCategories.ToArray()),
+            makeQuestion(Question.BarChartsUnit, module, correctAnswers: new[] { chosenUnit.ToString() })
+        };
+
+        var heightArr = new[] { "shortest", "second shortest", "second tallest", "tallest" };
+        var heightOrderIndices = heightOrder.Select(x => Mathf.RoundToInt(x)).ToList();
+        for (int i = 0; i < 4; i++)
+        {
+            int correctHeightPos = heightOrderIndices.IndexOf(i + 1) + 1;
+            qs.AddRange(new[] {
+                makeQuestion(Question.BarChartsColor, module, formatArgs: new[] { ordinal(i + 1) }, correctAnswers: new[] { barColors[i].ToString() }),
+                makeQuestion(Question.BarChartsHeight, module, formatArgs: new[] { heightArr[i] }, correctAnswers: new[] { correctHeightPos.ToString() })
+            });
+
+        }
+
+        addQuestions(module, qs);
+    }
 
 
     private IEnumerator<YieldInstruction> ProcessBarcodeCipher(ModuleData module)
