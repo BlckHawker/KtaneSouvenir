@@ -1674,19 +1674,6 @@ namespace Souvenir
                     ["Dots are inverted"] = "点自体が反転",
                 },
             },
-            // What was the {1} word in {0}?
-            // What was the red word in Color Braille?
-            [Question.ColorBrailleWords] = new()
-            {
-                QuestionText = "{0}の{1}の単語は？",
-                ModuleName = "色付き点字",
-                FormatArgs = new Dictionary<string, string>
-                {
-                    ["red"] = "赤",
-                    ["green"] = "緑",
-                    ["blue"] = "青",
-                },
-            },
 
             // Color Decoding
             // What was the {1}-stage indicator pattern in {0}?

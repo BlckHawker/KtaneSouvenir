@@ -365,9 +365,6 @@ public partial class SouvenirModule
         var words = GetArrayField<string>(comp, "_words").Get(expectedLength: 3);
         var mangling = GetField<object>(comp, "_mangling").Get(m => !manglingNames.ContainsKey(m.ToString()) ? "mangling is not in the dictionary" : null);
         addQuestions(module,
-            makeQuestion(Question.ColorBrailleWords, module, formatArgs: new[] { "red" }, correctAnswers: new[] { words[0] }, preferredWrongAnswers: allWords),
-            makeQuestion(Question.ColorBrailleWords, module, formatArgs: new[] { "green" }, correctAnswers: new[] { words[1] }, preferredWrongAnswers: allWords),
-            makeQuestion(Question.ColorBrailleWords, module, formatArgs: new[] { "blue" }, correctAnswers: new[] { words[2] }, preferredWrongAnswers: allWords),
             makeQuestion(Question.ColorBrailleMangling, module, correctAnswers: new[] { manglingNames[mangling.ToString()] }));
     }
 

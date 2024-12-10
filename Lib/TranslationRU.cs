@@ -1619,18 +1619,6 @@ namespace Souvenir
                     ["Dots are inverted"] = "Dots are inverted",
                 },
             },
-            // What was the {1} word in {0}?
-            // What was the red word in Color Braille?
-            [Question.ColorBrailleWords] = new()
-            {
-                QuestionText = "What was the {1} word in «{0}»?",
-                FormatArgs = new Dictionary<string, string>
-                {
-                    ["red"] = "red",
-                    ["green"] = "green",
-                    ["blue"] = "blue",
-                },
-            },
 
             // Color Decoding
             // What was the {1}-stage indicator pattern in {0}?
