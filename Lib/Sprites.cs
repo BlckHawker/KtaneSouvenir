@@ -37,11 +37,11 @@ namespace Souvenir
         /// <param name="radius">The radius of each circle, in pixels.</param>
         /// <param name="outline">Specifies whether circles that are not visible should have an outline.</param>
         /// <param name="gap">The gap between circles, in pixels.</param>
-        public static Sprite GetCircleAnswer(int width, int height, int litdots, int radius, bool outline, int gap)
+        public static Sprite GetCircleAnswer(int width, int height, int litdots, int radius, bool outline, int gap, bool vertical = true)
         {
             var textureWidth = width * radius * 2 + (width - 1) * gap;
             var textureHeight = height * radius * 2 + (height - 1) * gap;
-            var key = $"{width}:{height}:{litdots}:{radius}:{outline}:{gap}";
+            var key = $"{width}:{height}:{litdots}:{radius}:{outline}:{gap}:{vertical}";
 
             // If the sprite is not cached, create it
             if (!_circleSpriteCache.TryGetValue(key, out var tx))
@@ -52,9 +52,31 @@ namespace Souvenir
                 {
                     for (var dotX = 0; dotX < width; dotX++)
                         for (var dotY = 0; dotY < height; dotY++)
-                            if ((litdots & (1 << (dotX + width * dotY))) != 0 ? IsPointInCircle(pixel % textureWidth, pixel / textureWidth, radius, gap, dotX, dotY) :
-                                outline && IsPointInAnnulus(pixel % textureWidth, pixel / textureWidth, radius, radius - 5, gap, dotX, dotY))
+                        {
+
+                            int positionInGrid;
+
+
+                            if (vertical)
+                            {
+                                positionInGrid = dotY + height * dotX;
+                            }
+
+                            else
+                            {
+                                positionInGrid = dotX + width * dotY;
+                            }
+
+                            var bitAtThisPosition = 1 << positionInGrid;
+                            var extractThatBitFromLitdots = litdots & bitAtThisPosition;
+                            var isTheBit1 = extractThatBitFromLitdots != 0;
+
+                            if (isTheBit1 ? IsPointInCircle(pixel % textureWidth, textureHeight - 1 -  (pixel / textureWidth), radius, gap, dotX, dotY) :
+                            outline && IsPointInAnnulus(pixel % textureWidth, textureHeight - 1 - (pixel / textureWidth), radius, radius - 5, gap, dotX, dotY))
                                 return new Color32(0xFF, 0xF8, 0xDD, 0xFF);
+
+                        }
+                            
                     return new Color32(0x00, 0x00, 0x00, 0x00);
                 }));
                 tx.Apply();

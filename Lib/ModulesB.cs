@@ -749,20 +749,10 @@ public partial class SouvenirModule
     {
         var comp = GetComponent(module, "BrailleModule");
         yield return WaitForSolve;
-        var highlights = GetArrayField<MeshFilter>(comp, "BrailleLetterHighlights", isPublic: true).Get(expectedLength: 4);
-
-        Debug.Log($"Shared mesh is null: {highlights[0].sharedMesh == null}");
-        foreach (MeshFilter mf in highlights)
-        {
-            
-            Debug.Log("Mesh filter name " + mf.name);
-            Debug.Log("Mesh name " + mf.mesh.name);
-            Debug.Log($"Shared mesh name: ${mf.sharedMesh.name}");
-            Debug.Log("");
-        }
-
         
-        addQuestion(module, Question.BrailleWord, correctAnswers: new[] { GetField<string>(comp, "_word").Get() });
+        var braillePatterns = GetArrayField<int>(comp, "BraillePatterns").Get();
+        var allAnswers = Enumerable.Range(1, 63).Select(litDots => Sprites.GetCircleAnswer(2, 3, litDots, 20, true, 20)).ToArray();
+        addQuestions(module, braillePatterns.Select((p, ix) => makeQuestion(Question.BrailleFormation, module, formatArgs: new[] { Ordinal(ix+1) },  correctAnswers: new Sprite[] { Sprites.GetCircleAnswer(2, 3, p, 20, true, 20) })));
     }
 
     private IEnumerator<YieldInstruction> ProcessBreakfastEgg(ModuleData module)
