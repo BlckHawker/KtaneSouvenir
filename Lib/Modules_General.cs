@@ -75,7 +75,7 @@ public partial class SouvenirModule
             ["boomtarTheGreat"] = (ProcessBoomtarTheGreat, "Boomtar the Great", "Anonymous"),
             ["GSBottomGear"] = (ProcessBottomGear, "Bottom Gear", "Anonymous"),
             ["boxing"] = (ProcessBoxing, "Boxing", "Timwi"),
-            ["BrailleModule"] = (ProcessBraille, "Braille", "Timwi"),
+            ["BrailleModule"] = (ProcessBraille, "Braille", "Hawker"),
             ["breakfastEgg"] = (ProcessBreakfastEgg, "Breakfast Egg", "tandyCake"),
             ["BrokenButtonsModule"] = (ProcessBrokenButtons, "Broken Buttons", "Timwi"),
             ["BrokenGuitarChordsModule"] = (ProcessBrokenGuitarChords, "Broken Guitar Chords", "Kuro"),
