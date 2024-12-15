@@ -295,12 +295,16 @@ namespace Souvenir
             private readonly int _height;
             private readonly int _radius;
             private readonly int _gap;
+            private readonly float _scale;
 
             /// <summary>Indicates that the pattern in which all circles are “off” should not be generated.</summary>
             public bool SuppressEmpty { get; set; }
 
             /// <summary>Indicates whether “off” circles should be represented by a circle outline (as opposed to be missing entirely).</summary>
             public bool DrawOutline { get; set; }
+
+            /// <summary>The scale that will be applied to the sprite. (1 by default)</summary>
+            public float Scale { get; set; } = 1f;
 
             /// <summary>Generates sprites in which circles are arranged in a rectilinear grid.</summary>
             /// <param name="width">Specifies the number of circles per row.</param>
@@ -320,13 +324,13 @@ namespace Souvenir
                 var maxDots = _width * _height;
                 if (maxDots >= 10)
                     while (true)
-                        yield return Sprites.GenerateCirclesSprite(_width, _height, Random.Range(SuppressEmpty ? 1 : 0, 1 << maxDots), _radius, _gap, DrawOutline);
+                        yield return Sprites.GenerateCirclesSprite(_width, _height, Random.Range(SuppressEmpty ? 1 : 0, 1 << maxDots), _radius, _gap, Scale, DrawOutline);
 
                 // With no more than 6 possible values, the above case may go into an infinite loop trying to generate 5 distinct values.
                 // In this case, we will return all possible values in a random order and then halt.
                 var dotPatterns = Enumerable.Range(SuppressEmpty ? 1 : 0, (1 << maxDots) - (SuppressEmpty ? 1 : 0)).ToArray().Shuffle();
                 foreach (var dotPattern in dotPatterns)
-                    yield return Sprites.GenerateCirclesSprite(_width, _height, dotPattern, _radius, _gap, DrawOutline);
+                    yield return Sprites.GenerateCirclesSprite(_width, _height, dotPattern, _radius, _gap, Scale, DrawOutline);
             }
         }
 

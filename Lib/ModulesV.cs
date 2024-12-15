@@ -25,13 +25,14 @@ public partial class SouvenirModule
     {
         var comp = GetComponent(module, "Valves");
         yield return WaitForSolve;
-
-        if (ValvesSprites.Length != 8)
-            throw new AbandonModuleException($"Valves should have 8 sprites. Counted {ValvesSprites.Length}");
-
+        //1 is black, 0 is white
         var valvesColorNums = GetArrayField<int>(comp, "valvesColorNum").Get(expectedLength: 3, validator: val => val != 0 && val != 1 ? "expected 0 or 1" : null);
-        var spriteIx = valvesColorNums.Aggregate(0, (p, n) => (p << 1) | (n ^ 1));
-        addQuestion(module, Question.ValvesInitialState, correctAnswers: new[] { ValvesSprites[spriteIx] });
+        string[] arr = valvesColorNums.Select(i => i == 1 ? "0" : "1").Reverse().ToArray();
+        Debug.Log("original arr: " + string.Join("", arr.Reverse().ToArray()));
+        Debug.Log("reversed arr: " + string.Join("", arr));
+        int circlePresents = Convert.ToInt32(string.Join("", arr), 2);
+        Debug.Log("circle present: " + circlePresents);
+        addQuestion(module, Question.ValvesInitialState, correctAnswers: new Sprite[] { Sprites.GenerateCirclesSprite(3, 1, circlePresents, 20, 20, outline: true, scale: .4f) });
     }
 
     private IEnumerator<YieldInstruction> ProcessVaricoloredSquares(ModuleData module)

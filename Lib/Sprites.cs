@@ -38,7 +38,8 @@ namespace Souvenir
         /// <param name="gap">The gap between circles, in pixels.</param>
         /// <param name="outline">Specifies whether circles that are not visible should have an outline.</param>
         /// <param name="vertical">If <c>true</c>, <paramref name="circlesPresent"/> is in vertical order (Braille); else, reading order.</param>
-        public static Sprite GenerateCirclesSprite(int width, int height, int circlesPresent, int radius, int gap, bool outline = false, bool vertical = false)
+        /// <param name="scale">The scale that will be applied to the sprite</param>
+        public static Sprite GenerateCirclesSprite(int width, int height, int circlesPresent, int radius, int gap, float scale = 1f, bool outline = false, bool vertical = false)
         {
             if (vertical)
             {
@@ -75,7 +76,7 @@ namespace Souvenir
                 _circleSpriteCache.Add(key, tx);
             }
 
-            var sprite = Sprite.Create(tx, new Rect(0, 0, textureWidth, textureHeight), new Vector2(0, .5f), textureHeight * (60f / 17));
+            var sprite = Sprite.Create(tx, new Rect(0, 0, textureWidth, textureHeight), new Vector2(0, .5f), textureHeight * (60f / 17) / scale );
             sprite.name = $"Circles {key}";
             return sprite;
         }
