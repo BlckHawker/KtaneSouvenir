@@ -2,7 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Souvenir;
 using UnityEngine;
@@ -471,6 +473,63 @@ public partial class SouvenirModule
         addQuestions(module, flashes.Select((f, i) =>
             makeQuestion(Question.PointlessMachinesFlashes, module, formatArgs: new[] { Ordinal(i + 1) },
                 correctAnswers: new[] { f })));
+    }
+
+    private IEnumerator<YieldInstruction> ProcessPointOfOrder(ModuleData module)
+    { 
+        var comp = GetComponent(module, "PointOfOrderModule");
+        var pileFld = GetField<IList>(comp, "_pile");
+        //flip the cards over
+        module.Module.OnPass += () =>
+        {
+            Transform[] displayCardTransforms = Enumerable.Range(1, 4).Select(ix => module.Module.transform.Find($"PileCard{ix}")).ToArray();
+
+            var animationLoop = GetMethod<IEnumerable>(comp, "animationLoop", 4);
+
+            //Note to Timwi: Unsure where the cardFlipAudio is stored. This needs to check the appropriate place
+            var cardFlipAudio = GetField<AudioClip>(comp, "audioClip").Get();
+
+            IEnumerator FlipDisplayCard(int index, bool flipDown)
+            {
+                yield return new WaitForSeconds(.2f * index);
+
+                //play the flipping sound
+                Audio.PlaySoundAtTransform(cardFlipAudio.name, displayCardTransforms[index].transform);
+
+                Action<float> action = i =>
+                {
+                    //Note to Timwi: figure out what the local rotation/position change needs to be 
+                };
+
+                //Note to Timwi: figure out what the first three parameters are supposed to be
+                foreach (var _ in animationLoop.Invoke(0, 180, 360, action))
+                    yield return _;
+            }
+
+            var flipAnswerCardMethod = GetMethod<IEnumerator>(comp, "flipCard", 3);
+            for (int i = 0; i < 4; i++)
+            {
+                StartCoroutine(flipAnswerCardMethod.Invoke(i, true, i == 3));
+                StartCoroutine(FlipDisplayCard(i, true));
+            }
+            
+            return false;
+        };
+        yield return WaitForSolve;
+
+        var pile = pileFld.Get();
+        var allCards = GetStaticField<IList>(pile[0].GetType(), "AllCards", isPublic: true).Get();
+        var allAnswers = new string[52];
+        var answers = new string[5];
+        for (int i = 0; i < 5; i++)
+        {
+            answers[i] = pile[i].ToString();
+        }
+        for (int i = 0; i < 52; i++)
+        {
+            allAnswers[i] = allCards[i].ToString();
+        }
+        addQuestion(module, Question.PointOfOrderPreviousCards, correctAnswers: answers, allAnswers: allAnswers);
     }
 
     private IEnumerator<YieldInstruction> ProcessPolygons(ModuleData module)

@@ -2121,6 +2121,9 @@
             ExampleFormatArguments = new[] { QandA.Ordinal }, ExampleFormatArgumentGroupSize = 1, TranslateAnswers = true)]
         PointlessMachinesFlashes,
 
+        [SouvenirQuestion("What was one of the previously played cards in {0}?", "Point of Order", ThreeColumns6Answers, ExampleAnswers = new[] { "A♠", "A♥", "A♣", "A♦", "2♠", "2♥", "2♣", "2♦" })]
+        PointOfOrderPreviousCards,
+
         [SouvenirQuestion("Which polygon was present on {0}?", "Polygons", ThreeColumns6Answers, Type = AnswerType.Sprites, SpriteField = "PolygonsSprites")]
         PolygonsPolygon,
 
