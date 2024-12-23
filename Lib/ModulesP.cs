@@ -477,42 +477,50 @@ public partial class SouvenirModule
 
     private IEnumerator<YieldInstruction> ProcessPointOfOrder(ModuleData module)
     { 
+
         var comp = GetComponent(module, "PointOfOrderModule");
         var pileFld = GetField<IList>(comp, "_pile");
         //flip the cards over
         module.Module.OnPass += () =>
         {
-            Transform[] displayCardTransforms = Enumerable.Range(1, 4).Select(ix => module.Module.transform.Find($"PileCard{ix}")).ToArray();
-
+            int num = 5;
+            Transform[] displayCardTransforms = Enumerable.Range(1, num).Select(ix => module.Module.transform.Find($"PileCard{ix}")).ToArray();
+            GameObject backCardCopy = module.Module.transform.Find("ChoiceCard1/Card/BackFace").gameObject;
             var animationLoop = GetMethod<IEnumerable>(comp, "animationLoop", 4);
-
-            //Note to Timwi: Unsure where the cardFlipAudio is stored. This needs to check the appropriate place
-            var cardFlipAudio = GetField<AudioClip>(comp, "audioClip").Get();
-
-            IEnumerator FlipDisplayCard(int index, bool flipDown)
+            var flipCard = GetMethod<IEnumerator>(comp, "flipCard", 3);
+            IEnumerator FlipDisplayCard(int index)
             {
+                Transform card = displayCardTransforms[index];
                 yield return new WaitForSeconds(.2f * index);
 
-                //play the flipping sound
-                Audio.PlaySoundAtTransform(cardFlipAudio.name, displayCardTransforms[index].transform);
-
+                //play the flipping sound (this does not work as a reference to "cardflip" does not exist)
+                Audio.PlaySoundAtTransform("cardflip", card.transform);
+                Quaternion initialRotation = card.rotation;
+                Vector3 initalPosition = card.localPosition + new Vector3(0, .001f, 0);
                 Action<float> action = i =>
                 {
-                    //Note to Timwi: figure out what the local rotation/position change needs to be 
+                    card.rotation = initialRotation * Quaternion.AngleAxis(i, Vector3.up);
+                    card.localPosition = initalPosition + new Vector3(0, -i * (i - 180) * .00001f, 0);
                 };
 
-                //Note to Timwi: figure out what the first three parameters are supposed to be
                 foreach (var _ in animationLoop.Invoke(0, 180, 360, action))
                     yield return _;
             }
-
-            var flipAnswerCardMethod = GetMethod<IEnumerator>(comp, "flipCard", 3);
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < num; i++)
             {
-                StartCoroutine(flipAnswerCardMethod.Invoke(i, true, i == 3));
-                StartCoroutine(FlipDisplayCard(i, true));
+                if (i < num - 1)
+                {
+                    //flip the chosen cards over
+                    StartCoroutine(flipCard.Invoke(i, true, false));
+                }
+
+                //give the display cards a back and flip it over
+                Transform back = Instantiate(backCardCopy, displayCardTransforms[i]).transform;
+                back.localRotation = Quaternion.Euler(180, 0, 0);
+                back.localScale = Vector3.one;
+                StartCoroutine(FlipDisplayCard(i));
             }
-            
+
             return false;
         };
         yield return WaitForSolve;
