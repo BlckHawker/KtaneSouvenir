@@ -954,6 +954,11 @@
         [AnswerGenerator.Grid(4, 4)]
         FaultyButtonsThisButtonReferredTo,
 
+        [SouvenirQuestion("What was the {1} digit displayed in {0}?", "Faulty Digital Root", ThreeColumns6Answers,
+            ExampleFormatArguments = new[] { QandA.Ordinal }, ExampleFormatArgumentGroupSize = 1)]
+        [AnswerGenerator.Integers(0, 9)]
+        FaultyDigitalRootDisplay,
+
         [SouvenirQuestion("What was the exit coordinate in {0}?", "Faulty RGB Maze", ThreeColumns6Answers)]
         [AnswerGenerator.Strings("A-G", "1-7")]
         FaultyRGBMazeExit,

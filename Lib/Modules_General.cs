@@ -188,6 +188,7 @@ public partial class SouvenirModule
             ["factoryMaze"] = (ProcessFactoryMaze, "Factory Maze", "luisdiogo98"),
             ["fastMath"] = (ProcessFastMath, "Fast Math", "Timwi"),
             ["GSFaultyButtons"] = (ProcessFaultyButtons, "Faulty Buttons", "Kuro"),
+            ["faultyDigitalRootModule"] = (ProcessFaultyDigitalRoot, "FaultyDigitalRoot", "Hawker"),
             ["faultyrgbMaze"] = (ProcessFaultyRGBMaze, "Faulty RGB Maze", "kavinkul"),
             ["DateFinder"] = (ProcessFindTheDate, "Find The Date", "Hawker"),
             ["FiveLetterWords"] = (ProcessFiveLetterWords, "Five Letter Words", "Kuro"),

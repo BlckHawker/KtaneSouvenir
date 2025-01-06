@@ -81,6 +81,46 @@ public partial class SouvenirModule
         addQuestions(module, qs);
     }
 
+    private IEnumerator<YieldInstruction> ProcessFaultyDigitalRoot(ModuleData module)
+    {
+        var comp = GetComponent(module, "DigitalRootFaultyScript");
+        var bottomDisplayTextMesh = GetField<GameObject>(comp, "numDisplay1", isPublic: true).Get().GetComponent<TextMesh>();
+        var bottomDisplay = "";
+        var displaysTextMeshes = Enumerable.Range(1, 3).Select(i => GetField<GameObject>(comp, $"scrDisplay{i}", isPublic: true).Get().GetComponent<TextMesh>());
+        StartCoroutine(GetData());
+        string[] displays = null;
+
+        //this should be fine as a method since there are no validators
+        IEnumerator GetData()
+        {
+            yield return new WaitForSeconds(1f); //wait for a second in order to verify data was changed
+            displays = displaysTextMeshes.Select(textMesh => textMesh.text).ToArray();
+
+            do
+            {
+                bottomDisplay = bottomDisplayTextMesh.GetComponent<TextMesh>().text;
+                yield return new WaitForSeconds(.1f);
+            } while (bottomDisplay == "");
+        }
+
+        module.Module.OnStrike += () =>
+        {
+            StartCoroutine(GetData());
+            return false;
+        };
+
+        yield return WaitForSolve;
+
+        if (int.Parse(bottomDisplay) % 2 == 0)
+        {
+            legitimatelyNoQuestion(module.Module, "Additive Digital Root");
+            yield break;
+        }
+
+        addQuestions(module.Module,
+            displays.Select((display, ix) => makeQuestion(Question.FaultyDigitalRootDisplay, module, formatArgs: new[] { Ordinal(ix + 1) }, correctAnswers: new[] { display })).ToArray());
+    }
+
     private IEnumerator<YieldInstruction> ProcessFaultyRGBMaze(ModuleData module)
     {
         var comp = GetComponent(module, "FaultyRGBMazeScript");
