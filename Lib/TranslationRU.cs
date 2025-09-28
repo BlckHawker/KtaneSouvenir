@@ -10742,6 +10742,19 @@ public class Translation_ru : TranslationBase<Translation_ru.TranslationInfo_ru>
             },
         },
 
+        [typeof(SPointOfOrder)] = new()
+        {
+            NeedsTranslation = true,
+            Questions = new()
+            {
+                [SPointOfOrder.PreviousCards] = new()
+                {
+                    // English: What was one of the previously played cards in {0}?
+                    Question = "What was one of the previously played cards in {0}?",
+                },
+            },
+        },
+
         [typeof(SPolygons)] = new()
         {
             Conjugation = Conjugation.PrepositiveMascNeuter,

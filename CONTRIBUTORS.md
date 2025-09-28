@@ -102,17 +102,17 @@ The following is a list of modules supported by Souvenir, and the fine people wh
     Colored Keys         │  Free Parking              │  Maze³             │  Reverse Morse      │  Vexillology
     Cube, The            │  Hexabutton, The           │  Mazematics        │  Simon Scrambles    │  Zoni
 
-## Implemented by Hawker (41)
+## Implemented by Hawker (42)
 
-    3N+1                     │  DetoNATO              │  Garfield Kart        │  Mixometer                          │  Subway
-    Arena, The               │  Dimension Disruption  │  Garnet Thief, The    │  Module Movements                   │  Suits and Colours
-    Bar Charts               │  Directional Button    │  Girlfriend           │  RGB Sequences                      │  UNO!
-    Book of Mario            │  Disordered Keys       │  h                    │  Robot Programming                  │  Valves
-    Bordered Keys            │  Earthbound            │  High Score, The      │  Scrutiny Squares                   │  Weakest Link, The
-    Character Slots          │  Error Codes           │  Keypad Combinations  │  Sign Language                      │
-    Cheat Checkout           │  Find The Date         │  Kuro                 │  Simon Serves                       │
-    Conditional Buttons      │  Flavor Text           │  Ladder Lottery       │  Sonic & Knuckles                   │
-    Customer Identification  │  Flavor Text EX        │  LED Grid             │  Spongebob Birthday Identification  │
+    3N+1                     │  DetoNATO              │  Garfield Kart        │  Mixometer          │  Spongebob Birthday Identification
+    Arena, The               │  Dimension Disruption  │  Garnet Thief, The    │  Module Movements   │  Subway
+    Bar Charts               │  Directional Button    │  Girlfriend           │  Point Of Order     │  Suits and Colours
+    Book of Mario            │  Disordered Keys       │  h                    │  RGB Sequences      │  UNO!
+    Bordered Keys            │  Earthbound            │  High Score, The      │  Robot Programming  │  Valves
+    Character Slots          │  Error Codes           │  Keypad Combinations  │  Scrutiny Squares   │  Weakest Link, The
+    Cheat Checkout           │  Find The Date         │  Kuro                 │  Sign Language      │
+    Conditional Buttons      │  Flavor Text           │  Ladder Lottery       │  Simon Serves       │
+    Customer Identification  │  Flavor Text EX        │  LED Grid             │  Sonic & Knuckles   │
 
 ## Implemented by BigCrunch22 (37)
 

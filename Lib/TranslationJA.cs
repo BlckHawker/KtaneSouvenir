@@ -10778,6 +10778,19 @@ public class Translation_ja : TranslationBase<TranslationInfo>
             },
         },
 
+        [typeof(SPointOfOrder)] = new()
+        {
+            NeedsTranslation = true,
+            Questions = new()
+            {
+                [SPointOfOrder.PreviousCards] = new()
+                {
+                    // English: What was one of the previously played cards in {0}?
+                    Question = "What was one of the previously played cards in {0}?",
+                },
+            },
+        },
+
         [typeof(SPolygons)] = new()
         {
             ModuleName = "多角形",
